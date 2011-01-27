@@ -77,7 +77,7 @@ class GitConfig:
         self.maxdiffsize = self._git_config("maxdiffsize", 50)
         self.maxdiffsize *= 1024
 
-        repo = "ssh://%s@%s/%s" % (whoami, self.hostname, os.path.basename(os.getcwd()))
+        repo = "ssh://%s/%s" % (self.hostname, os.getcwd())
 
         if repo.endswith(".git"):
             repo = repo[0:-4]
