@@ -307,6 +307,8 @@ def commit(current, rev):
 
     print >>out, mailTag("On branch%s" % multi, branches)
 
+    print >>out, "\nhttp://hackage.haskell.org/trac/ghc/changeset/%s" % rev
+
     show_flags="--stat --no-color --find-copies-harder --pretty=medium --ignore-space-at-eol"
     footer = ""
 
