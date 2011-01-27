@@ -45,7 +45,10 @@ class State:
                 continue
 
             m = line.split()
-            (type, key, val) = (m[0], m[1], m[2])
+            if len(m) >= 3:
+                (type, key, val) = (m[0], m[1], m[2])
+            else:
+                (type, key, val) = (m[0], m[1], '')
 
             if type == "head":
                 self.heads[key] = val
@@ -208,13 +211,8 @@ def getTags(state):
             state.tags[tag] = rev
 
 def getReachableRefs(state):
-    for (type, record) in [(state.heads, True), (state.tags, False)]:
-        for name in type:
-            for rev in git(["rev-list", type[name]]):
-                try:
-                    state.revs[rev] += [name] if record else []
-                except KeyError:
-                    state.revs[rev] = [name] if record else []
+    for rev in git(["rev-list"] + state.heads.keys() + state.tags.keys()):
+        state.revs[rev] = []
 
 def getCurrent():
     state = State()
@@ -297,7 +295,13 @@ def entryDeleted(key, value):
 def commit(current, rev):
     log("New revision %s" % rev)
 
-    branches = current.revs[rev]
+    branches = []
+    for branch in current.heads:
+        revs = git(["rev-list", rev, "^%s^" % rev, "^" + branch])
+        if (rev not in revs):
+            branches += [branch]
+
+#    branches = current.revs[rev]
     multi = "es" if len(branches) > 1 else ""
     branches = ",".join(branches)
 
