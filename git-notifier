@@ -67,7 +67,7 @@ class GitConfig:
         whoami = os.environ["LOGNAME"]
         sender = os.environ["GL_USER"] if "GL_USER" in os.environ else whoami
 
-        self.hostname = self._git_config("hostname", socket.gethostname())
+        self.hostname = self._git_config("hooks.hostname", socket.gethostname())
         self.sender = self._git_config("hooks.sender", sender)
         self.emailprefix = self._git_config("hooks.emailprefix", "[git]")
         self.mailinglist = self._git_config("hooks.mailinglist", whoami)
