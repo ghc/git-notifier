@@ -5,7 +5,7 @@
 git-notifier
 ============
 
-:Version: 0.2
+:Version: 0.2-ghc
 :Home: http://www.icir.org/robin/git-notifier
 :Author: Robin Sommer <robin@icir.org>
 :Date: |date|
